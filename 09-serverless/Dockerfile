@@ -1,9 +1,7 @@
-FROM public.ecr.aws/lambda/python:3.10
+FROM public.ecr.aws/lambda/python:3.8
 
 RUN pip install --no-cache-dir keras-image-helper \
-    && pip install --no-cache-dir --extra-index-url https://google-coral.github.io/py-repo/ tflite_runtime \
-    && pip uninstall cryptography \
-    && pip install --no-cache-dir cryptography==3.4.8
+    && pip install --no-cache-dir https://github.com/alexeygrigorev/tflite-aws-lambda/raw/refs/heads/main/tflite/tflite_runtime-2.5.2-cp38-cp38-linux_x86_64.whl
 
 COPY clothing-model.tflite lambda_function.py ./
 
