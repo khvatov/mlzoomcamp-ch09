@@ -1,0 +1,41 @@
+To specify additional dependencies like `pyarrow` when submitting an application via `spark-submit` using Python, you have a few options:
+
+1. **Using `--py-files` Option**:
+   You can use the `--py-files` option to add Python files or zipped packages. However, this method might not cover all cases, especially for packages with native code dependencies like `pyarrow`.
+
+   ```bash
+   spark-submit --py-files my_dependencies.zip my_script.py
+   ```
+
+2. **Using Conda**:
+   Create a Conda environment, pack it, and use the `--archives` option to distribute it across the cluster.
+
+   ```bash
+   conda create -y -n pyspark_conda_env -c conda-forge pyarrow pandas
+   conda pack -f -o pyspark_conda_env.tar.gz
+   spark-submit --archives pyspark_conda_env.tar.gz#environment my_script.py
+   ```
+
+3. **Using Virtualenv**:
+   Similar to Conda, you can create a virtual environment, pack it, and use the `--archives` option.
+
+   ```bash
+   python -m venv pyspark_venv
+   source pyspark_venv/bin/activate
+   pip install pyarrow pandas
+   venv-pack -o pyspark_venv.tar.gz
+   spark-submit --archives pyspark_venv.tar.gz#environment my_script.py
+   ```
+
+4. **Using PEX**:
+   PEX creates a self-contained Python environment. You can create a `.pex` file and use the `--files` option.
+
+   ```bash
+   pip install pyarrow pandas pex
+   pex pyarrow pandas -o pyspark_pex_env.pex
+   spark-submit --files pyspark_pex_env.pex my_script.py
+   ```
+
+Each method has its own advantages and limitations, so you can choose the one that best fits your use case[1](https://www.databricks.com/blog/2020/12/22/how-to-manage-python-dependencies-in-pyspark.html)[2](https://spark.apache.org/docs/latest/api/python/user_guide/python_packaging.html).
+
+Do you have a preferred method or need help with a specific one?

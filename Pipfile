@@ -1,0 +1,31 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[[source]]
+url = "https://google-coral.github.io/py-repo/"
+verify_ssl = true
+name = "google-coralgithub"
+
+[[source]]
+url = "https://google-coral.github.io/py-repo/"
+verify_ssl = true
+name = "google-coralgithub"
+
+[packages]
+scikit-learn = "*"
+jupyter = "*"
+xgboost = "*"
+tqdm = "*"
+seaborn = "*"
+matplotlib = "*"
+tensorflow = "2.14.0"
+numpy = "<2.0"
+keras-image-helper = "*"
+tflite-runtime = {version = "*", index = "google-coralgithub"}
+
+[dev-packages]
+
+[requires]
+python_version = "3.10"
