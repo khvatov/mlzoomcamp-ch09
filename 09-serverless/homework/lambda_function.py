@@ -3,14 +3,14 @@
 
 # ## Alex Khvatov Homework 9
 
-
-import tensorflow.lite as tflite
+import tflite_runtime.interpreter as tflite
+#import tensorflow.lite as tflite
 from io import BytesIO
 from urllib import request
 import numpy as np
 
 
-interpreter = tflite.Interpreter(model_path='model_2024_hairstyle.tflite')
+interpreter = tflite.Interpreter(model_path='model_2024_hairstyle_v2.tflite')
 interpreter.allocate_tensors()
 
 input_index = interpreter.get_input_details()[0]['index']
@@ -33,9 +33,7 @@ def prepare_image(img, target_size):
     return img
 
 def preprocess_input(x):
-    x/=127.5
-    x -= 1.
-    return x
+    return x * (1/255.0)
     
 
 #url = 'https://habrastorage.org/webt/yf/_d/ok/yf_dokzqy3vcritme8ggnzqlvwa.jpeg'
@@ -58,5 +56,10 @@ def predict(url:str):
     return preds[0].tolist()[0]
     
 
-
+def lambda_handler(event, context):
+    print(f"{event=}")
+    url = event['url']
+    result = predict(url)
+    print(f"{result=}")
+    return result
 
