@@ -24,6 +24,7 @@ tensorflow = "2.14.0"
 numpy = "<2.0"
 keras-image-helper = "*"
 tflite-runtime = {version = "*", index = "google-coralgithub"}
+pillow = "*"
 
 [dev-packages]
 
